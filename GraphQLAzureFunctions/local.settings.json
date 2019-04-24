@@ -1,7 +1,10 @@
 {
-    "IsEncrypted": false,
-    "Values": {
-        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "AzureWebJobsDashboard": "UseDevelopmentStorage=true"
-    }
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AzureWebJobsDashboard": "UseDevelopmentStorage=true"
+  },
+  "Host": {
+    "CORS": "*"
+  }
 }

@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
+using Microsoft.Extensions.Logging;
+using System.Net.Http;
 
 namespace GraphQLAzureFunctions
 {
@@ -18,7 +20,7 @@ namespace GraphQLAzureFunctions
         [FunctionName("graphql")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-            TraceWriter log,
+            ILogger log,
             [Inject(typeof(IDocumentWriter))] IDocumentWriter _writer,
             [Inject(typeof(IDocumentExecuter))] IDocumentExecuter _executer,
             [Inject(typeof(ISchema))]ISchema schema
@@ -34,7 +36,7 @@ namespace GraphQLAzureFunctions
                 _.Inputs = request.Variables.ToInputs();
             });
 
-            return (ActionResult)new OkObjectResult(_writer.Write(result));
+            return new OkObjectResult(await _writer.WriteToStringAsync(result));
         }
 
         private static T Deserialize<T>(Stream s)

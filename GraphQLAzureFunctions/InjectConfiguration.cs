@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs.Host.Config;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GraphQLAzureFunctions
 {
@@ -26,6 +24,7 @@ namespace GraphQLAzureFunctions
                 .AddBindingRule<InjectAttribute>()
                 .BindToInput<dynamic>(i => _serviceProvider.GetRequiredService(i.Type));
         }
+
         private void RegisterServices(IServiceCollection services)
         {
             services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(type => s.GetRequiredService(type)));
